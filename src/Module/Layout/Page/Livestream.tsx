@@ -98,7 +98,7 @@ const Livestream = () => {
             <div className='container-fluid ' style={{marginBottom:"100px"}}>
             <div className='row '>
          <div className='col-sm-12 w-100 p-0 m-0 d-flex flex-column  justify-content-center align-items-start ' style={{height:"500px"}}>
-         <iframe className='w-100 h-100' src="https://www.youtube.com/embed/4Uk2ijhzn28" title="LIVE: Bharat Jodo Nyay Yatra" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+         <iframe className='w-100 h-100' src="https://www.youtube.com/embed/tssYikj1srE" title="LIVE: Bharat Jodo Nyay Yatra" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
      
          </div>
             </div>
@@ -110,7 +110,7 @@ const Livestream = () => {
           {/* i18n.language === 'hi' */}
           
 
-                     <div className='col-sm-4'>
+                     <div className='col-sm-4 mb-3'>
 
 {/*    डाउनलोड पैम्फलेट    */}
 
@@ -147,7 +147,7 @@ const Livestream = () => {
                   
                      </div>
 
-                     <div className='col-sm-4'>
+                     <div className='col-sm-4 mb-3'>
 
 {/*    डाउनलोड पैम्फलेट    */}
 
@@ -176,7 +176,7 @@ const Livestream = () => {
             }
 
 </div>
-<div className='col-sm-4'>
+<div className='col-sm-4 mb-3'>
 
 {
               i18n.language === 'en' ?  

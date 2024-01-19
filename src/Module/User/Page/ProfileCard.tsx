@@ -48,7 +48,7 @@ const ProfileCard: React.FC = () => {
       // Create a temporary link element
       const downloadLink = document.createElement('a');
       downloadLink.href = dataUrl;
-      downloadLink.download = 'html_to_image.png';
+      downloadLink.download = 'My_Profile.png';
 
       // Append the link to the body and trigger the download
       document.body.appendChild(downloadLink);
@@ -123,7 +123,7 @@ const ProfileCard: React.FC = () => {
                                          
                                          
                      </div>
-                     <div className='row mt-3 p-0 m-0 d-flex justify-content-between'>
+                     <div className='row mt-3  p-0 m-0 d-flex justify-content-between'>
                   <div className='col-7 p-0 m-0   '>
                   <input type="file" className='custom-file-input ' onChange={(event)=>handleImageChange(event)} />
 

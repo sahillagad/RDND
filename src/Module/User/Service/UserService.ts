@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser, IValidate, IcreateUser, IgetAssembly, IgetLoksabha, IgetOtp, IgetValidate } from "../Model/UserDataType";
+import { IUser, IValidate, IcreateUser, IgetAssembly, IgetGalleryImage, IgetGalleryType, IgetLoksabha, IgetOtp, IgetValidate } from "../Model/UserDataType";
 
 
 
@@ -7,7 +7,7 @@ export class UserService{
 
 
     private static serverUri:string="https://portalserver.ycea.in";
-
+    // http://3.108.196.221:6001/
 
     public static assemblyService(state:string,lokSabha:string):Promise<{data:IgetAssembly}>{
         let allAssemblyList:string=`${this.serverUri}/rnp/Lsasmapping/getAs/${state}/${lokSabha}`
@@ -40,5 +40,24 @@ export class UserService{
 }
 
 
+public static uplodepdfService(pdfData:FormData,mobileNumber:string,stateName:string):Promise<{data:IgetValidate}>{
+    let   validateOTPUri:string=`${this.serverUri}/rnp/RozgarMember/uplodepdf/84964963228/AP`;
+   return axios.post(validateOTPUri,{pdfData})
+}
 
+
+// public static 
+// https://portalserver.ycea.in/rnp/RozgarMember/getallcategorys
+
+
+
+public static getallcategorysService():Promise<{data:IgetGalleryType[]}>{
+    let   getallcategorysUri:string=`${this.serverUri}/rnp/RozgarMember/getallcategorys`;
+   return axios.get(getallcategorysUri)
+}
+
+public static getallImageService(typeGallery:string):Promise<{data:IgetGalleryImage[]}>{
+    let   getallImageUri:string=`${this.serverUri}/rnp/RozgarMember/getImagesFromGallery/${typeGallery}`;
+   return axios.get(getallImageUri)
+}
 }

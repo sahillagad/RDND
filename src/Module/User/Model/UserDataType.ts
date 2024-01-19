@@ -91,3 +91,13 @@ export interface  IgetAssembly{
     LS_NAME: string
   }
   
+
+  export interface IgetGalleryType{
+    success?: string[]
+    message?:string
+  }
+
+  export interface IgetGalleryImage{
+    success?: string[]
+    message?:string
+  }

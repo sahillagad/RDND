@@ -27,6 +27,12 @@ import { useReactToPrint } from 'react-to-print'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { image } from 'html2canvas/dist/types/css/types/image'
+import '../../../App.css'; 
+import { RingLoader } from 'react-spinners'
+import spinner2 from "../../../Assets/spinner2.gif"
+
+
+
 
 const Patra = () => {
 
@@ -136,6 +142,7 @@ const Patra = () => {
   let [submitBtnPress,setSubmitBtnPress]=useState<boolean>(false);
   let [optSendMobile,setOptSendMobile]=useState(false)
 let [userCreated,setUserCreated]=useState(false);
+const [DownloadSpinner, setDownloadSpinner] = useState(false);
 
    const handleCraeteUserState=(event:React.FormEvent<HTMLFormElement>)=>{
     event?.preventDefault()
@@ -170,7 +177,7 @@ let [userCreated,setUserCreated]=useState(false);
               dispatch(createUserAction({"user":{...user,"ROZGAAR_NYAY_CODE":otp}})).then((result:any) => {
                 setSubmitBtnPress(false)
                 setUserCreated(true)
-                setOtp("")
+         
             })
 
         
@@ -338,462 +345,54 @@ let [userCreated,setUserCreated]=useState(false);
 
   
 
-//    const generatePDF = useReactToPrint({
-//      content: () => componentPDF.current,
-//      documentTitle: 'ROZGAR_NYAY_PATRA',
-//      onAfterPrint: () => {
-//        toast.success('Data saved in PDF');
-//      },
-//      pageStyle: `
-//        @page {
-//          size: A4 landscape; /* Set the page size to A4 landscape */
-//          margin: 0; /* Set margins to zero */
-//        }
- 
-//        @media print {
-//          body {
-//            width: 100%; /* Set a fixed width for the print layout */
-//            margin: 0 auto; /* Center the content */
-//          }
- 
-//          /* Add additional styles for color printing */
-//          .color-print {
-//            color: red; /* Change the color to your desired color */
-//            /* Add other styles for color printing */
-//          }
-
-//          @import url('https://fonts.googleapis.com/css?family=Open+Sans|Rock+Salt|Shadows+Into+Light|Cedarville+Cursive');
-// .envelope {
-  	
-//     height:auto ;
-//     padding: 1em;
-//     line-height:1.8em ; 
-//     border: 1em solid transparent;
-// background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
-//            repeating-linear-gradient(-45deg,
-//              #166A2F 0, #166A2F 8.33%,
-//              #ffffff 0, #ffffff 16.66%,
-//              #EE5A1C 0, #EE5A1C 25%,
-//              /* New colors added here */
-//              #ffffff 0, #ffffff 33.33%,
-//              #19aaed 0, #19aaed 41.66%,
-//              #ffffff 0, #ffffff 50%)
-//            0 / 6em 6em;
-
-
-//     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.6);
-//     animation: shine 2s infinite;
-//     /* transform: rotate(0.1deg); */
-//   }
-
-
-
-// .stamp {
-
-// 	display: inline-block;
-// 	padding: 10px;
-//   /* margin-top: 50px; */
-// 	background: white;
-// 	position: relative;
-//   text-align:center;
-// 	-webkit-filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.2));
-// 	background: radial-gradient(
-// 		transparent 0px, 
-// 		transparent 4px, 
-// 		white 4px,
-// 		white
-// 	);
-// 	background-size: 20px 20px;
-// 	background-position: -10px -10px;
-// }
-
-
-
-
-
-
-
-// /* Style the fixed navigation tab */
-// .fixed-tab {
-//   position: fixed;
-//   bottom: 20px;
-//   right: 20px;
-//   z-index: 1000;
-// }
-
-// .bg-custom{
-//     background-color: #115f80;
-// }
-// .bg-custom2{
-//   background-color: #eae0da;
-// }
-
-// .bg-custom3{
-//   background-color: #e2e9fd !important;
-// }
-// .text-custom{
-//     color: #115f80;;
-// }
-// .text-align-justify{
-//     text-align: justify;
-// }
-
-
-// .letter2RightSideBoxImage{
-//     float:left;
-//     shape-outside: ellipse();
-// }
-
-
-
-
-// .button-53 {
-//   background-color: #ffffff;
-//   border: 0 solid #E5E7EB;
-//   box-sizing: border-box;
-//   color: #115f80;
-//   display: flex;
-//   font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-//   font-size: 1rem;
-//   font-weight: 700;
-//   justify-content: center;
-//   line-height: 1.75rem;
-//   padding: .75rem 1.65rem;
-//   position: relative;
-//   text-align: center;
-//   text-decoration: none #115f80 solid;
-//   text-decoration-thickness: auto;
-//   width: 100%;
-//   max-width: 460px;
-//   position: relative;
-//   cursor: pointer;
-//   transform: rotate(-2deg);
-//   user-select: none;
-//   -webkit-user-select: none;
-//   touch-action: manipulation;
-// }
-
-// .button-53:focus {
-//   outline: 0;
-// }
-
-// .button-53:after {
-//   content: '';
-//   position: absolute;
-//   border: 1px solid #000000;
-//   bottom: 4px;
-//   left: 4px;
-//   width: calc(100% - 1px);
-//   height: calc(100% - 1px);
-// }
-
-// .button-53:hover:after {
-//   bottom: 2px;
-//   left: 2px;
-// }
-
-
-
-// .HeaderRazgar {
-//   background-color: #115f80;
-//   border: 0 solid #115f80;
-//   box-sizing: border-box;
-//   color: white;
-//   display: flex;
-//   font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-//   font-size: 1rem;
-//   font-weight: 700;
-//   justify-content: center;
-//   line-height: 1.75rem;
-//   padding: .75rem 1.65rem;
-//   position: relative;
-//   text-align: center;
-//   text-decoration: none white solid;
-//   text-decoration-thickness: auto;
-//   width: 100%;
-//   max-width: 460px;
-//   position: relative;
-//   cursor: pointer;
-//   transform: rotate(-2deg);
-//   user-select: none;
-//   -webkit-user-select: none;
-//   touch-action: manipulation;
-// }
-
-// .HeaderRazgar:focus {
-//   outline: 0;
-// }
-
-// .HeaderRazgar:after {
-//   content: '';
-//   position: absolute;
-//   border: 1px solid #115f80;
-//   bottom: 4px;
-//   left: 4px;
-//   width: calc(100% - 1px);
-//   height: calc(100% - 1px);
-// }
-
-// .HeaderRazgar:hover:after {
-//   bottom: 2px;
-//   left: 2px;
-// }
-
-// @media (min-width: 768px) {
-//   .button-53 {
-//     padding: .75rem 3rem;
-//     font-size: 1.25rem;
-//   }
-// }
-
-
-// .form-select-custom{
-//   border: none !important;
-//   border-bottom: 4px dotted #115f80 !important;
-  
-// }
-
-// .form-select-custom1 {
-//   border: none !important;
-//   border-bottom: 4px dotted red !important;
-// }
-
-// .border-custom1{
-//   border: none !important;
-//   border-bottom: 4px dotted #115f80 !important;
-// }
-
-
-// .border-dotted-custom1{
-//   border: none !important;
-//   border-bottom: 4px dotted red !important;
-// }
-
-
-// @media only screen and (min-width:641px) {
-//     .border-custom{
-//         border-right: none;
-        
-//     }
-
-    
-//     }
-
-//     .imgh{
-//       max-height: 100px;
-//     }
-
-
-
-//     @media only screen and (max-width: 600px) {
-//       .fontsize{
-//         font-size: 20px !important;
-//       }
-//     }
-// /* Small devices (portrait tablets and large phones, 600px and up) */
-// @media only screen and (min-width: 600px) {
-
-  
-// .fontsize{
-//   font-size: 30px !important;
-// }
-
-// }
-// /* Medium devices (landscape tablets, 768px and up) */
-// @media only screen and (min-width: 768px) {
-//   .border-custom{
-//     border-right: 5px solid #115f80;
-    
-// }
-
-
-// .fontsize{
-//   font-size: 30px !important;
-// }
-// }
-// /* Large devices (laptops/desktops, 992px and up) */
-// @media only screen and (min-width: 992px) {
-
-  
-// .fontsize{
-//   font-size: 40px !important;
-// }
-
-// }
-
-
-// .Home-landing-page{
-//   background-image: url(./Assets/Carousel_Image\ \(1\).jpg);
-//   background-repeat:no-repeat;
-//   background-size: cover;
-//   background-size: 100% 100%;
-//   background-attachment: scroll;
-//   background-position: center;
-//   height: 450px;
-//   color: white;
-     
-   
-// }
-
-// .Home-wrapper{
-//   background-color: rgba(0,0,0,0.5);
-//   height: 450px;
-// }
-
-
-// .Home-wrapper-Header{
-//   line-height:normal !important
-// }
-
-
-
-
-// .btn-custom{
-//   background-color: #115f80 !important;
-//   color: white !important;
-// } 
-
-
-
-// .bg-custom1{
-//   background-color: #f8ede3 !important;
-// }
-
-// .btn-custom:hover{
-//  background-color: white;
-//  border: 1px solid #19aaed;
-//  color: #19aaed;
-// }
-
-// .btn-custom1{
-//   background-color: white !important;
-//   color: #19aaed !important;
-//   border: 1px solid #19aaed !important;
-
-// }
-
-// .btn-custom1:hover{
-//   background-color: #19aaed !important;
-//   color: white !important;
-// }
-
-// .text-custom{
-//   color: #115f80 !important;
-// }
-
-// .badge-custom{
-//   background-color:#19aaed !important ;
-//  color: white !important;
-// }
-
-
-
-// .btn-custom2{
-//   background-color: #19aaed !important;
-//   color: white !important;
-// } 
-
-// .btn-custom2:hover{
-//   color:#19aaed !important;
-//   background-color: white !important;
-//    border: solid 2px #19aaed  !important;
-// }
-
-// .cursor-pointer{
-//   cursor:pointer !important;
-// }
-
-
-// .nav-hover:hover{
-//   color: #19aaed !important;
-// }
-
-
-// /* .carousel-image{
-//   height:500px !important;
-//  }
-
-
-//  @media only screen and (max-width: 767px) {
-
-//   .carousel-image{
-//     height: 200px !important;
-//   }
-
-// } */
-
-// .signature{
-//   font-family: 'Cedarville Cursive', cursive !important;
-//   /* font-size: 20px !important; */
-  
-// }
-
-
-
-
-// /* 
-// .{
-//  margin-top: 100px;
-// } */
-
-//        }
-//      `,
-//    })
-
- 
-
-  //  const htmlRef = useRef<HTMLDivElement>(null);
-
-  // const componentPDF = useRef<HTMLDivElement | null>(null);
-  //  const generatePDF = async () => {
-  //    if (componentPDF.current) {
-  //      const canvas = await html2canvas(componentPDF.current);
-  //      const dataUrl = canvas.toDataURL('image/png');
- 
-  //      // Create a temporary link element
-  //      const downloadLink = document.createElement('a');
-  //      downloadLink.href = dataUrl;
-  //      downloadLink.download = 'html_to_image.png';
- 
-  //      // Append the link to the body and trigger the download
-  //      document.body.appendChild(downloadLink);
-  //      downloadLink.click();
- 
-  //      // Remove the link from the body
-  //      document.body.removeChild(downloadLink);
-  //    }
-  //  };
-
   const componentPDF = useRef<HTMLDivElement | null>(null);
 
   const generatePDF = async () => {
+
+    setDownloadSpinner(true);
+
     if (componentPDF.current) {
       try {
+        // Capture HTML content to an image
         const canvas = await html2canvas(componentPDF.current, { scale: 2 });
         const imageData = canvas.toDataURL('image/png');
- 
-             // Create a temporary link element
-      const downloadLink = document.createElement('a');
-      downloadLink.href = imageData;
-      downloadLink.download = 'html_to_image.png';
-
-      // Append the link to the body and trigger the download
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-
-      // Remove the link from the body
-      document.body.removeChild(downloadLink);
-
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        pdf.addImage(imageData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
-
-        pdf.save('html_to_pdf.pdf');
+  
+        // Calculate the width and height of the captured image
+        const imageWidth = canvas.width;
+        const imageHeight = canvas.height;
+  
+        // Create a PDF document with the size of the captured image
+        const pdf = new jsPDF('p', 'pt', [imageWidth, imageHeight]);
+  
+        // Add the image to the PDF
+        pdf.addImage(imageData, 'PNG', 0, 0, imageWidth, imageHeight);
+  
+        // Save or open the PDF
+        pdf.save('ROZGAR_NYAY_PATRA.pdf');
       } catch (error) {
         console.error('Error generating PDF:', error);
+      }finally {
+        setDownloadSpinner(false);
+
+        
+    dispatch({
+      type:`${UserReducer.handleCreateInfoEmpty}`,
+    })
+
+    setOtp("")
+
+
+    dispatch({
+      type:`${UserReducer.handleEmptyUserInput}`,
+    })
+
       }
     }
   };
 
+
+
+ 
 
 
 
@@ -822,6 +421,7 @@ let [userCreated,setUserCreated]=useState(false);
       type:`${UserReducer.handleCreateInfoEmpty}`,
     })
 
+    setOtp("")
 
 
     dispatch({
@@ -840,7 +440,7 @@ let [userCreated,setUserCreated]=useState(false);
     {
       (successInfo.length !== 0 && successInfo !== "" ) && <>
        <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog  modal-dialog-centered" role="document">
+       <div className="modal-dialog  " role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-success p-1'>
@@ -863,9 +463,8 @@ let [userCreated,setUserCreated]=useState(false);
 
    {
     (createInfo.length !== 0 && createInfo !== "" ) && <>
-    
-    <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog  modal-dialog-centered" role="document">
+<div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
+       <div className="modal-dialog  " role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-warning p-1'>
@@ -883,14 +482,17 @@ let [userCreated,setUserCreated]=useState(false);
            </div>
          </div>
        </div>
-     </div>
+     </div>    
+    
     </>
    }
+
+
 
   {
       (errorInfo.length !== 0 && errorInfo !== "" ) && <>
        <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog modal-dialog-centered" role="document">
+       <div className="modal-dialog " role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-danger p-1'>
@@ -914,7 +516,7 @@ let [userCreated,setUserCreated]=useState(false);
   {
     ( errorDetails.length !== 0 &&  errorDetails !== "" ) &&  <>
       <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog  modal-dialog-centered" role="document">
+       <div className="modal-dialog " role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-danger p-1'>
@@ -937,6 +539,15 @@ let [userCreated,setUserCreated]=useState(false);
   }
 
 
+{DownloadSpinner && (
+      
+<div className="loading-box d-flex justify-content-center align-items-center">
+<img src={spinner2} className='loading border-0' alt="" />
+
+</div>
+    
+      )}
+
 
 
 
@@ -949,9 +560,9 @@ let [userCreated,setUserCreated]=useState(false);
 
        <form className='row  needs-validation'   onSubmit={(event)=>  handleCraeteUserState(event)}>
 
-            <div className='col-sm-12 center-content ' style={{ pageBreakAfter: 'always' }}>
+            <div className='col-sm-12 center-content  ' style={{ pageBreakAfter: 'always' }}>
             <div className=' h-100 w-100 d-flex justify-content-center align-items-center'>
-    <div className="container envelope pt-0 pb-0">
+    <div className="container envelope  pt-0 pb-0">
         <div className='row  d-flex justify-content-between'>
           <div className='col-3  pt-2 pb-2  col-sm-3 col-lg-2  d-flex justify-content-center align-items-center'>
            <img src={IYC_logo} className='img-fluid imgh' alt="" />
@@ -969,12 +580,12 @@ let [userCreated,setUserCreated]=useState(false);
          </div>
 
         </div>
-        <div className='row mt-3'>
+        <div className='row mt-3 '>
              <div className='col-12 d-flex justify-content-center align-content-center'>
       <img src={rozgar_nyay_patra_image1} className='img-fluid' alt="" />
              </div>
         </div>
-        <div className='row bg-custom pt-4 pb-4 d-flex justify-content-between '>
+        <div className='row bg-custom  pt-4 pb-4 d-flex justify-content-between '>
            <div className='col-lg-6 d-flex flex-column justify-content-center align-content-end'>
            <div  className=' fw-bolder   button-53' > 
     <em >{t('patra-para4')}</em>
@@ -1538,7 +1149,7 @@ optSendMobile=== false ?
 
             </form>
             
-
+          
 
 
         </div>

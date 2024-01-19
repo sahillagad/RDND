@@ -1,8 +1,8 @@
-import { Aspiration } from './../../Module/User/Model/UserDataType';
+import { Aspiration, IgetGalleryType } from './../../Module/User/Model/UserDataType';
 import { SerializedError, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
 import {IAssembly, ILoksabha, IState, IUser } from "../../Module/User/Model/UserDataType";
 import toast from "react-hot-toast";
-import { assemblyAction, createUserAction, getOTPAction, lokSabhaAction, validateOTPAction } from "./User.action";
+import { assemblyAction, createUserAction, getOTPAction, getallImageServiceAction, getallcategorysAction, lokSabhaAction, validateOTPAction } from "./User.action";
 
 
 export const userFeatureKey:string="userFeature";
@@ -14,9 +14,11 @@ export interface InitialState{
     assemblyList:IAssembly[];
     lokSabhaList:ILoksabha[];
     stateList:IState[]
+    categoryGallery:string[],
     errorInfo:string,
     successInfo:string,
     createInfo:string,
+    imageGallery:string[]
 }
 
 /*
@@ -62,6 +64,8 @@ export const initialState:InitialState={
     createInfo:"",
     assemblyList:[] as IAssembly[],
     lokSabhaList:[] as ILoksabha[],
+    categoryGallery:[] as string[],
+    imageGallery:[] as string[],
     stateList:[
         { code: 'AN', name: 'Andaman and Nicobar Islands' },
         { code: 'AP', name: 'Andhra Pradesh' },
@@ -277,8 +281,49 @@ export const UserSlice=createSlice({
               }
           })
 
+         
 
-      },
+          builder.addCase(getallcategorysAction.pending,(state,action)=>{
+            state.loading=true;   
+          }).addCase(getallcategorysAction.fulfilled,(state,action)=>{
+             state.loading=false;
+               
+             if(action?.payload?.success){        
+                state.categoryGallery=action?.payload?.success     
+           }
+           else{
+            toast.error(action?.payload?.message) 
+           }
+         
+            }).addCase(getallcategorysAction.rejected,(state,action)=>{
+              state.loading=false;
+              if(isRejectedWithValue(action)){
+              }
+          })
+     
+      builder.addCase(getallImageServiceAction.pending,(state,action)=>{
+        state.loading=true;   
+      }).addCase(getallImageServiceAction.fulfilled,(state,action)=>{
+         state.loading=false;
+           
+         if(action?.payload?.success){        
+            state.imageGallery=action?.payload?.success     
+       }
+       else{
+        toast.error(action?.payload?.message) 
+       }
+     
+        }).addCase(getallImageServiceAction.rejected,(state,action)=>{
+          state.loading=false;
+          if(isRejectedWithValue(action)){
+          }
+      })
+      
+      
+        },
+
+
+
 })
 
 

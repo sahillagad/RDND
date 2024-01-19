@@ -1,4 +1,4 @@
-import { IUser, IValidate, IcreateUser, IgetOtp, IgetValidate } from './../../Module/User/Model/UserDataType';
+import { IUser, IValidate, IcreateUser, IgetGalleryType, IgetOtp, IgetValidate } from './../../Module/User/Model/UserDataType';
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IgetAssembly, IgetLoksabha } from "../../Module/User/Model/UserDataType";
 import { UserService } from "../../Module/User/Service/UserService";
@@ -80,3 +80,51 @@ export const validateOTPAction:any=createAsyncThunk("User/validateOTPAction",asy
 
 
 
+
+// uplodepdfService
+
+export const uplodepdfAction:any=createAsyncThunk("User/uplodepdfAction",async(payload:{pdfData:FormData,mobileNumber:string,stateName:string},{rejectWithValue}):Promise<IgetValidate|any>=>{
+     try {
+ 
+          let {pdfData,mobileNumber,stateName}=payload;
+      
+          const response=await UserService.uplodepdfService(pdfData,mobileNumber,stateName);  
+          return   response.data;
+     } catch (error:any) {
+          if(!error.response){
+             throw error
+          }
+          return rejectWithValue(error);
+     }
+ })
+ 
+
+
+//  IgetGalleryType
+export const getallcategorysAction:any=createAsyncThunk("User/getallcategorysAction",async(payload:{},{rejectWithValue}):Promise<IgetGalleryType|any>=>{
+     try {
+          const response=await UserService.getallcategorysService();  
+          return   response.data;
+     } catch (error:any) {
+          if(!error.response){
+             throw error
+          }
+          return rejectWithValue(error);
+     }
+ })
+ 
+
+//  getallImageService
+
+export const getallImageServiceAction:any=createAsyncThunk("User/getallImageServiceAction",async(payload:{typeGallery:string},{rejectWithValue}):Promise<IgetGalleryType|any>=>{
+     try {
+          let {typeGallery}=payload;
+          const response=await UserService.getallImageService(typeGallery);  
+          return   response.data;
+     } catch (error:any) {
+          if(!error.response){
+             throw error
+          }
+          return rejectWithValue(error);
+     }
+ })
