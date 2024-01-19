@@ -41,7 +41,22 @@ export interface InitialState{
 export const initialState:InitialState={
     loading:false,
     errorMassage:{} as SerializedError,
-    user:{} as IUser,
+    user:{  "NAME": "",
+		"MOBILE": "",
+		"EMAIL": "",
+		"AGE": "",
+		"GENDER": "",
+		"CATEGORY": "",
+		"STATE": "",
+		"STATE_CODE": "",
+		"PARLIAMENT": "",
+		"PARLIAMENT_CODE": "",
+		"ASSEMBLY": "",
+		"ASSEMBLY_CODE": "",
+		"HIGHEST_EDUCATIONAL_QUALIFICATION": "",
+		"ROZGAAR_NYAY_CODE": "",
+		"VOTER_ID": "",
+		"VOLUNTEER": false,},
     errorInfo:"",
     successInfo:"",
     createInfo:"",
@@ -107,7 +122,23 @@ export const UserSlice=createSlice({
         } 
       },
       handleEmptyUserInput:(state,action)=>{
-        state.user={} as IUser;
+        state.user={  
+        "NAME": "",
+        "MOBILE": "",
+        "EMAIL": "",
+        "AGE": "",
+        "GENDER": "",
+        "CATEGORY": "",
+        "STATE": "",
+        "STATE_CODE": "",
+        "PARLIAMENT": "",
+        "PARLIAMENT_CODE": "",
+        "ASSEMBLY": "",
+        "ASSEMBLY_CODE": "",
+        "HIGHEST_EDUCATIONAL_QUALIFICATION": "",
+        "ROZGAAR_NYAY_CODE": "",
+        "VOTER_ID": "",
+        "VOLUNTEER": false,};
       },
       handleUserVolunteerInput:(state,action)=>{
         let event=action.payload.event;

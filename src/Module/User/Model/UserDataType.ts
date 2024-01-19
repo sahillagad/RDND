@@ -26,22 +26,12 @@ export interface IUser {
     Civil_Services?: boolean
     Teaching?: boolean
     Police_officer?: boolean
-    Railway?: boolean
-    Bank?: boolean
-    Lekhpal?: boolean
-    Patwari?: boolean
-    Tehsildar?: boolean
-    Nurse?: boolean
-    Anganwadi?: boolean
-    Doctor?: boolean
-    Engineer?: boolean
-    Lawyer?: boolean
-    Asha?:boolean,
-    Accountant?: boolean
-    Marketing?: boolean
-    Data_Entry?: boolean
-    Start_up?: boolean
-    Business?:boolean
+    Railway_Bank?: boolean
+    Lekhpal_Patwari_Tehsildar?: boolean
+    Nurse_Asha_Anganwadi?: boolean
+    Doctor_Engineer_Lawyer?: boolean
+    Accountant_Marketing_Data_Entry?: boolean
+    Start_up_business?: boolean
     Others?:boolean
   }
 

@@ -24,7 +24,9 @@ import { assemblyAction, createUserAction, getOTPAction, lokSabhaAction, validat
 import toast from 'react-hot-toast'
 import OTPInput from 'react-otp-input'
 import { useReactToPrint } from 'react-to-print'
-
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import { image } from 'html2canvas/dist/types/css/types/image'
 
 const Patra = () => {
 
@@ -166,9 +168,9 @@ let [userCreated,setUserCreated]=useState(false);
              
 
               dispatch(createUserAction({"user":{...user,"ROZGAAR_NYAY_CODE":otp}})).then((result:any) => {
-               
-               
+                setSubmitBtnPress(false)
                 setUserCreated(true)
+                setOtp("")
             })
 
         
@@ -334,411 +336,467 @@ let [userCreated,setUserCreated]=useState(false);
 
    
 
-   const componentPDF = useRef<HTMLDivElement | null>(null);
+  
 
-   const generatePDF = useReactToPrint({
-     content: () => componentPDF.current,
-     documentTitle: 'ROZGAR_NYAY_PATRA',
-     onAfterPrint: () => {
-       toast.success('Data saved in PDF');
-     },
-     pageStyle: `
-       @page {
-         size: A4 landscape; /* Set the page size to A4 landscape */
-         margin: 0; /* Set margins to zero */
-       }
+//    const generatePDF = useReactToPrint({
+//      content: () => componentPDF.current,
+//      documentTitle: 'ROZGAR_NYAY_PATRA',
+//      onAfterPrint: () => {
+//        toast.success('Data saved in PDF');
+//      },
+//      pageStyle: `
+//        @page {
+//          size: A4 landscape; /* Set the page size to A4 landscape */
+//          margin: 0; /* Set margins to zero */
+//        }
  
-       @media print {
-         body {
-           width: 100%; /* Set a fixed width for the print layout */
-           margin: 0 auto; /* Center the content */
-         }
+//        @media print {
+//          body {
+//            width: 100%; /* Set a fixed width for the print layout */
+//            margin: 0 auto; /* Center the content */
+//          }
  
-         /* Add additional styles for color printing */
-         .color-print {
-           color: red; /* Change the color to your desired color */
-           /* Add other styles for color printing */
-         }
+//          /* Add additional styles for color printing */
+//          .color-print {
+//            color: red; /* Change the color to your desired color */
+//            /* Add other styles for color printing */
+//          }
 
-         @import url('https://fonts.googleapis.com/css?family=Open+Sans|Rock+Salt|Shadows+Into+Light|Cedarville+Cursive');
-.envelope {
+//          @import url('https://fonts.googleapis.com/css?family=Open+Sans|Rock+Salt|Shadows+Into+Light|Cedarville+Cursive');
+// .envelope {
   	
-    height:auto ;
-    padding: 1em;
-    line-height:1.8em ; 
-    border: 1em solid transparent;
-background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
-           repeating-linear-gradient(-45deg,
-             #166A2F 0, #166A2F 8.33%,
-             #ffffff 0, #ffffff 16.66%,
-             #EE5A1C 0, #EE5A1C 25%,
-             /* New colors added here */
-             #ffffff 0, #ffffff 33.33%,
-             #19aaed 0, #19aaed 41.66%,
-             #ffffff 0, #ffffff 50%)
-           0 / 6em 6em;
+//     height:auto ;
+//     padding: 1em;
+//     line-height:1.8em ; 
+//     border: 1em solid transparent;
+// background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+//            repeating-linear-gradient(-45deg,
+//              #166A2F 0, #166A2F 8.33%,
+//              #ffffff 0, #ffffff 16.66%,
+//              #EE5A1C 0, #EE5A1C 25%,
+//              /* New colors added here */
+//              #ffffff 0, #ffffff 33.33%,
+//              #19aaed 0, #19aaed 41.66%,
+//              #ffffff 0, #ffffff 50%)
+//            0 / 6em 6em;
 
 
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.6);
-    animation: shine 2s infinite;
-    /* transform: rotate(0.1deg); */
-  }
-
-
-
-.stamp {
-
-	display: inline-block;
-	padding: 10px;
-  /* margin-top: 50px; */
-	background: white;
-	position: relative;
-  text-align:center;
-	-webkit-filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.2));
-	background: radial-gradient(
-		transparent 0px, 
-		transparent 4px, 
-		white 4px,
-		white
-	);
-	background-size: 20px 20px;
-	background-position: -10px -10px;
-}
+//     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.6);
+//     animation: shine 2s infinite;
+//     /* transform: rotate(0.1deg); */
+//   }
 
 
 
+// .stamp {
+
+// 	display: inline-block;
+// 	padding: 10px;
+//   /* margin-top: 50px; */
+// 	background: white;
+// 	position: relative;
+//   text-align:center;
+// 	-webkit-filter: drop-shadow(0px 0px 10px rgba(0,0,0,0.2));
+// 	background: radial-gradient(
+// 		transparent 0px, 
+// 		transparent 4px, 
+// 		white 4px,
+// 		white
+// 	);
+// 	background-size: 20px 20px;
+// 	background-position: -10px -10px;
+// }
 
 
 
 
-/* Style the fixed navigation tab */
-.fixed-tab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.bg-custom{
-    background-color: #115f80;
-}
-.bg-custom2{
-  background-color: #eae0da;
-}
-
-.bg-custom3{
-  background-color: #e2e9fd !important;
-}
-.text-custom{
-    color: #115f80;;
-}
-.text-align-justify{
-    text-align: justify;
-}
-
-
-.letter2RightSideBoxImage{
-    float:left;
-    shape-outside: ellipse();
-}
 
 
 
+// /* Style the fixed navigation tab */
+// .fixed-tab {
+//   position: fixed;
+//   bottom: 20px;
+//   right: 20px;
+//   z-index: 1000;
+// }
 
-.button-53 {
-  background-color: #ffffff;
-  border: 0 solid #E5E7EB;
-  box-sizing: border-box;
-  color: #115f80;
-  display: flex;
-  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1.75rem;
-  padding: .75rem 1.65rem;
-  position: relative;
-  text-align: center;
-  text-decoration: none #115f80 solid;
-  text-decoration-thickness: auto;
-  width: 100%;
-  max-width: 460px;
-  position: relative;
-  cursor: pointer;
-  transform: rotate(-2deg);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
+// .bg-custom{
+//     background-color: #115f80;
+// }
+// .bg-custom2{
+//   background-color: #eae0da;
+// }
 
-.button-53:focus {
-  outline: 0;
-}
+// .bg-custom3{
+//   background-color: #e2e9fd !important;
+// }
+// .text-custom{
+//     color: #115f80;;
+// }
+// .text-align-justify{
+//     text-align: justify;
+// }
 
-.button-53:after {
-  content: '';
-  position: absolute;
-  border: 1px solid #000000;
-  bottom: 4px;
-  left: 4px;
-  width: calc(100% - 1px);
-  height: calc(100% - 1px);
-}
 
-.button-53:hover:after {
-  bottom: 2px;
-  left: 2px;
-}
+// .letter2RightSideBoxImage{
+//     float:left;
+//     shape-outside: ellipse();
+// }
 
 
 
-.HeaderRazgar {
-  background-color: #115f80;
-  border: 0 solid #115f80;
-  box-sizing: border-box;
-  color: white;
-  display: flex;
-  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1.75rem;
-  padding: .75rem 1.65rem;
-  position: relative;
-  text-align: center;
-  text-decoration: none white solid;
-  text-decoration-thickness: auto;
-  width: 100%;
-  max-width: 460px;
-  position: relative;
-  cursor: pointer;
-  transform: rotate(-2deg);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
 
-.HeaderRazgar:focus {
-  outline: 0;
-}
+// .button-53 {
+//   background-color: #ffffff;
+//   border: 0 solid #E5E7EB;
+//   box-sizing: border-box;
+//   color: #115f80;
+//   display: flex;
+//   font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+//   font-size: 1rem;
+//   font-weight: 700;
+//   justify-content: center;
+//   line-height: 1.75rem;
+//   padding: .75rem 1.65rem;
+//   position: relative;
+//   text-align: center;
+//   text-decoration: none #115f80 solid;
+//   text-decoration-thickness: auto;
+//   width: 100%;
+//   max-width: 460px;
+//   position: relative;
+//   cursor: pointer;
+//   transform: rotate(-2deg);
+//   user-select: none;
+//   -webkit-user-select: none;
+//   touch-action: manipulation;
+// }
 
-.HeaderRazgar:after {
-  content: '';
-  position: absolute;
-  border: 1px solid #115f80;
-  bottom: 4px;
-  left: 4px;
-  width: calc(100% - 1px);
-  height: calc(100% - 1px);
-}
+// .button-53:focus {
+//   outline: 0;
+// }
 
-.HeaderRazgar:hover:after {
-  bottom: 2px;
-  left: 2px;
-}
+// .button-53:after {
+//   content: '';
+//   position: absolute;
+//   border: 1px solid #000000;
+//   bottom: 4px;
+//   left: 4px;
+//   width: calc(100% - 1px);
+//   height: calc(100% - 1px);
+// }
 
-@media (min-width: 768px) {
-  .button-53 {
-    padding: .75rem 3rem;
-    font-size: 1.25rem;
-  }
-}
+// .button-53:hover:after {
+//   bottom: 2px;
+//   left: 2px;
+// }
 
 
-.form-select-custom{
-  border: none !important;
-  border-bottom: 4px dotted #115f80 !important;
+
+// .HeaderRazgar {
+//   background-color: #115f80;
+//   border: 0 solid #115f80;
+//   box-sizing: border-box;
+//   color: white;
+//   display: flex;
+//   font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+//   font-size: 1rem;
+//   font-weight: 700;
+//   justify-content: center;
+//   line-height: 1.75rem;
+//   padding: .75rem 1.65rem;
+//   position: relative;
+//   text-align: center;
+//   text-decoration: none white solid;
+//   text-decoration-thickness: auto;
+//   width: 100%;
+//   max-width: 460px;
+//   position: relative;
+//   cursor: pointer;
+//   transform: rotate(-2deg);
+//   user-select: none;
+//   -webkit-user-select: none;
+//   touch-action: manipulation;
+// }
+
+// .HeaderRazgar:focus {
+//   outline: 0;
+// }
+
+// .HeaderRazgar:after {
+//   content: '';
+//   position: absolute;
+//   border: 1px solid #115f80;
+//   bottom: 4px;
+//   left: 4px;
+//   width: calc(100% - 1px);
+//   height: calc(100% - 1px);
+// }
+
+// .HeaderRazgar:hover:after {
+//   bottom: 2px;
+//   left: 2px;
+// }
+
+// @media (min-width: 768px) {
+//   .button-53 {
+//     padding: .75rem 3rem;
+//     font-size: 1.25rem;
+//   }
+// }
+
+
+// .form-select-custom{
+//   border: none !important;
+//   border-bottom: 4px dotted #115f80 !important;
   
-}
+// }
 
-.form-select-custom1 {
-  border: none !important;
-  border-bottom: 4px dotted red !important;
-}
+// .form-select-custom1 {
+//   border: none !important;
+//   border-bottom: 4px dotted red !important;
+// }
 
-.border-custom1{
-  border: none !important;
-  border-bottom: 4px dotted #115f80 !important;
-}
-
-
-.border-dotted-custom1{
-  border: none !important;
-  border-bottom: 4px dotted red !important;
-}
+// .border-custom1{
+//   border: none !important;
+//   border-bottom: 4px dotted #115f80 !important;
+// }
 
 
-@media only screen and (min-width:641px) {
-    .border-custom{
-        border-right: none;
+// .border-dotted-custom1{
+//   border: none !important;
+//   border-bottom: 4px dotted red !important;
+// }
+
+
+// @media only screen and (min-width:641px) {
+//     .border-custom{
+//         border-right: none;
         
-    }
+//     }
 
     
-    }
+//     }
 
-    .imgh{
-      max-height: 100px;
-    }
+//     .imgh{
+//       max-height: 100px;
+//     }
 
 
 
-    @media only screen and (max-width: 600px) {
-      .fontsize{
-        font-size: 20px !important;
-      }
-    }
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
+//     @media only screen and (max-width: 600px) {
+//       .fontsize{
+//         font-size: 20px !important;
+//       }
+//     }
+// /* Small devices (portrait tablets and large phones, 600px and up) */
+// @media only screen and (min-width: 600px) {
 
   
-.fontsize{
-  font-size: 30px !important;
-}
+// .fontsize{
+//   font-size: 30px !important;
+// }
 
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  .border-custom{
-    border-right: 5px solid #115f80;
+// }
+// /* Medium devices (landscape tablets, 768px and up) */
+// @media only screen and (min-width: 768px) {
+//   .border-custom{
+//     border-right: 5px solid #115f80;
     
-}
+// }
 
 
-.fontsize{
-  font-size: 30px !important;
-}
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
+// .fontsize{
+//   font-size: 30px !important;
+// }
+// }
+// /* Large devices (laptops/desktops, 992px and up) */
+// @media only screen and (min-width: 992px) {
 
   
-.fontsize{
-  font-size: 40px !important;
-}
+// .fontsize{
+//   font-size: 40px !important;
+// }
 
-}
+// }
 
 
-.Home-landing-page{
-  background-image: url(./Assets/Carousel_Image\ \(1\).jpg);
-  background-repeat:no-repeat;
-  background-size: cover;
-  background-size: 100% 100%;
-  background-attachment: scroll;
-  background-position: center;
-  height: 450px;
-  color: white;
+// .Home-landing-page{
+//   background-image: url(./Assets/Carousel_Image\ \(1\).jpg);
+//   background-repeat:no-repeat;
+//   background-size: cover;
+//   background-size: 100% 100%;
+//   background-attachment: scroll;
+//   background-position: center;
+//   height: 450px;
+//   color: white;
      
    
-}
+// }
 
-.Home-wrapper{
-  background-color: rgba(0,0,0,0.5);
-  height: 450px;
-}
-
-
-.Home-wrapper-Header{
-  line-height:normal !important
-}
+// .Home-wrapper{
+//   background-color: rgba(0,0,0,0.5);
+//   height: 450px;
+// }
 
 
-
-
-.btn-custom{
-  background-color: #115f80 !important;
-  color: white !important;
-} 
+// .Home-wrapper-Header{
+//   line-height:normal !important
+// }
 
 
 
-.bg-custom1{
-  background-color: #f8ede3 !important;
-}
 
-.btn-custom:hover{
- background-color: white;
- border: 1px solid #19aaed;
- color: #19aaed;
-}
-
-.btn-custom1{
-  background-color: white !important;
-  color: #19aaed !important;
-  border: 1px solid #19aaed !important;
-
-}
-
-.btn-custom1:hover{
-  background-color: #19aaed !important;
-  color: white !important;
-}
-
-.text-custom{
-  color: #115f80 !important;
-}
-
-.badge-custom{
-  background-color:#19aaed !important ;
- color: white !important;
-}
+// .btn-custom{
+//   background-color: #115f80 !important;
+//   color: white !important;
+// } 
 
 
 
-.btn-custom2{
-  background-color: #19aaed !important;
-  color: white !important;
-} 
+// .bg-custom1{
+//   background-color: #f8ede3 !important;
+// }
 
-.btn-custom2:hover{
-  color:#19aaed !important;
-  background-color: white !important;
-   border: solid 2px #19aaed  !important;
-}
+// .btn-custom:hover{
+//  background-color: white;
+//  border: 1px solid #19aaed;
+//  color: #19aaed;
+// }
 
-.cursor-pointer{
-  cursor:pointer !important;
-}
+// .btn-custom1{
+//   background-color: white !important;
+//   color: #19aaed !important;
+//   border: 1px solid #19aaed !important;
+
+// }
+
+// .btn-custom1:hover{
+//   background-color: #19aaed !important;
+//   color: white !important;
+// }
+
+// .text-custom{
+//   color: #115f80 !important;
+// }
+
+// .badge-custom{
+//   background-color:#19aaed !important ;
+//  color: white !important;
+// }
 
 
-.nav-hover:hover{
-  color: #19aaed !important;
-}
+
+// .btn-custom2{
+//   background-color: #19aaed !important;
+//   color: white !important;
+// } 
+
+// .btn-custom2:hover{
+//   color:#19aaed !important;
+//   background-color: white !important;
+//    border: solid 2px #19aaed  !important;
+// }
+
+// .cursor-pointer{
+//   cursor:pointer !important;
+// }
 
 
-/* .carousel-image{
-  height:500px !important;
- }
+// .nav-hover:hover{
+//   color: #19aaed !important;
+// }
 
 
- @media only screen and (max-width: 767px) {
+// /* .carousel-image{
+//   height:500px !important;
+//  }
 
-  .carousel-image{
-    height: 200px !important;
-  }
 
-} */
+//  @media only screen and (max-width: 767px) {
 
-.signature{
-  font-family: 'Cedarville Cursive', cursive !important;
-  /* font-size: 20px !important; */
+//   .carousel-image{
+//     height: 200px !important;
+//   }
+
+// } */
+
+// .signature{
+//   font-family: 'Cedarville Cursive', cursive !important;
+//   /* font-size: 20px !important; */
   
-}
+// }
 
 
 
 
-/* 
-.{
- margin-top: 100px;
-} */
+// /* 
+// .{
+//  margin-top: 100px;
+// } */
 
-       }
-     `,
-   })
+//        }
+//      `,
+//    })
 
  
+
+  //  const htmlRef = useRef<HTMLDivElement>(null);
+
+  // const componentPDF = useRef<HTMLDivElement | null>(null);
+  //  const generatePDF = async () => {
+  //    if (componentPDF.current) {
+  //      const canvas = await html2canvas(componentPDF.current);
+  //      const dataUrl = canvas.toDataURL('image/png');
+ 
+  //      // Create a temporary link element
+  //      const downloadLink = document.createElement('a');
+  //      downloadLink.href = dataUrl;
+  //      downloadLink.download = 'html_to_image.png';
+ 
+  //      // Append the link to the body and trigger the download
+  //      document.body.appendChild(downloadLink);
+  //      downloadLink.click();
+ 
+  //      // Remove the link from the body
+  //      document.body.removeChild(downloadLink);
+  //    }
+  //  };
+
+  const componentPDF = useRef<HTMLDivElement | null>(null);
+
+  const generatePDF = async () => {
+    if (componentPDF.current) {
+      try {
+        const canvas = await html2canvas(componentPDF.current, { scale: 2 });
+        const imageData = canvas.toDataURL('image/png');
+ 
+             // Create a temporary link element
+      const downloadLink = document.createElement('a');
+      downloadLink.href = imageData;
+      downloadLink.download = 'html_to_image.png';
+
+      // Append the link to the body and trigger the download
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+
+      // Remove the link from the body
+      document.body.removeChild(downloadLink);
+
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        pdf.addImage(imageData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+
+        pdf.save('html_to_pdf.pdf');
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+      }
+    }
+  };
+
+
+
+
 
    const handleErrorDetails=()=>{
     setErrorDetails("")
@@ -782,7 +840,7 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
     {
       (successInfo.length !== 0 && successInfo !== "" ) && <>
        <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
+       <div className="modal-dialog  modal-dialog-centered" role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-success p-1'>
@@ -807,7 +865,7 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
     (createInfo.length !== 0 && createInfo !== "" ) && <>
     
     <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
+       <div className="modal-dialog  modal-dialog-centered" role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-warning p-1'>
@@ -832,7 +890,7 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
   {
       (errorInfo.length !== 0 && errorInfo !== "" ) && <>
        <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
+       <div className="modal-dialog modal-dialog-centered" role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-danger p-1'>
@@ -856,7 +914,7 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
   {
     ( errorDetails.length !== 0 &&  errorDetails !== "" ) &&  <>
       <div className="modal d-block " tabIndex={-1} role="dialog" data-backdrop="static"  data-keyboard="false">
-       <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
+       <div className="modal-dialog  modal-dialog-centered" role="document">
         
          <div className="modal-content shadow-lg ">
          <div className='modal-header bg-danger p-1'>
@@ -884,9 +942,12 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
 
 
 
-  <pre>{JSON.stringify(user)}</pre>
-       <div className='container-fluid  mt-4'  ref={componentPDF}>
-       <form className='row  needs-validation'  onSubmit={(event)=>  handleCraeteUserState(event)}>
+  {/* <pre>{JSON.stringify(user)}</pre> */}
+       <div className='container-fluid  mt-4' ref={componentPDF}>
+
+    
+
+       <form className='row  needs-validation'   onSubmit={(event)=>  handleCraeteUserState(event)}>
 
             <div className='col-sm-12 center-content ' style={{ pageBreakAfter: 'always' }}>
             <div className=' h-100 w-100 d-flex justify-content-center align-items-center'>
@@ -976,7 +1037,7 @@ background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
     <div className="col-lg-11">
       
     <input type="text"  
-    disabled={userCreated} 
+  
 className={`form-control ps-0  rounded-0 shadow-none  mb-3   mb-3   ${ (submitBtnPress === true && (user?.NAME=== ""|| user?.NAME === undefined) ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`} 
 value={user?.NAME}  
 name="NAME" 
@@ -987,17 +1048,17 @@ onChange={(event)=>handleUserStateInput(event)} required id="inputName" aria-des
     </div>
     <label htmlFor="inputAge" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom mt-2">{t('Patra-Age')}<span className='text-danger'>*</span>  </label>
     <div className="col-lg-3">
-      <input type="number" disabled={userCreated}  className={`form-control ps-0  rounded-0 shadow-none  mb-3   mb-3   ${ (submitBtnPress === true &&  (user?.AGE=== ""|| user?.AGE === undefined) ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`} value={user?.AGE}  name="AGE" onChange={(event)=>handleUserStateInput(event)} required id="inputAge" aria-describedby="helpId" placeholder="" />
+      <input type="number"  className={`form-control ps-0  rounded-0 shadow-none  mb-3   mb-3   ${ (submitBtnPress === true &&  (user?.AGE=== ""|| user?.AGE === undefined) ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`} value={user?.AGE}  name="AGE" onChange={(event)=>handleUserStateInput(event)} required id="inputAge" aria-describedby="helpId" placeholder="" />
     </div>
     <label htmlFor="inputGender" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom   mt-2" >{t('Patra-gender')}<span className='text-danger'>*</span> </label>
     <div className="col-lg-3   mb-3 ">
    
       <select
-                           disabled={userCreated} 
+                      
                             id="inputCategory"
-                            className={`form-select  shadow-none rounded-0 ${ (submitBtnPress === true &&  (user?.GENDER === ""|| user?.GENDER === undefined)  ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`}  name="GENDER" onChange={(event)=>handleUserStateInput(event)}
+                            className={`form-select  shadow-none rounded-0 ${ (submitBtnPress === true &&  (user?.GENDER === ""|| user?.GENDER === undefined)  ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`}  name="GENDER" value={user?.GENDER} onChange={(event)=>handleUserStateInput(event)}
                           >
-                            <option className="fw-bold">{t('Select-Menu')}</option>
+                            <option className="fw-bold" value={""}>{t('Select-Menu')}</option>
                             <option value={"Male"}>Male</option>
                             <option value={"Female"}>Female</option>
                             <option value={"Other"}>Other</option>
@@ -1007,7 +1068,7 @@ onChange={(event)=>handleUserStateInput(event)} required id="inputName" aria-des
     </div>
     <label htmlFor="inputCategory" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom  mt-2">{t('Patra-Category')} </label>
     <div className="col-lg-3   mb-3 ">    
-      <select disabled={userCreated} 
+      <select 
                             className="form-select form-select-custom  shadow-none rounded-0 "
                             id="inputCategory"
                             name="CATEGORY"
@@ -1032,7 +1093,7 @@ onChange={(event)=>handleUserStateInput(event)} required id="inputName" aria-des
     <label htmlFor="inputMobile" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom  mt-2">{t('Patra-Mobile-No')}<span className='text-danger'>*</span> </label>
     <div className="col-lg-5">
 
-      <input type="text" disabled={userCreated} 
+      <input type="text" 
          className={`form-control ps-0  rounded-0 shadow-none  mb-3   mb-3   ${ (submitBtnPress === true && (user?.MOBILE=== "" || user?.MOBILE === undefined) ) ? "text-danger border-dotted-custom1 is-invalid " :"border-custom1" }`}
       
       maxLength={10} minLength={10} value={user?.MOBILE}  name="MOBILE" onChange={(event)=>handleUserStateInput(event)} id="inputMobile" required aria-describedby="helpId" placeholder="" />
@@ -1041,16 +1102,16 @@ onChange={(event)=>handleUserStateInput(event)} required id="inputName" aria-des
 
   
 
-    <label htmlFor="inputEmail" className=" col-lg-1 col-form-label fw-bolder fs-6  text-custom  mt-2">{t('Patra-Email')}: </label>
+    <label htmlFor="inputEmail" className=" col-lg-1 col-form-label fw-bolder fs-6  text-custom  mt-2">{t('Patra-Email')} </label>
     <div className="col-lg-5">
-      <input type="email" disabled={userCreated}  className="form-control ps-0 border-custom1 rounded-0 shadow-none  mb-3   mb-3" value={user?.EMAIL}  name="EMAIL" onChange={(event)=>handleUserStateInput(event)} id="inputEmail" aria-describedby="helpId" placeholder="" />
+      <input type="email"  className="form-control ps-0 border-custom1 rounded-0 shadow-none  mb-3   mb-3" value={user?.EMAIL}  name="EMAIL" onChange={(event)=>handleUserStateInput(event)} id="inputEmail" aria-describedby="helpId" placeholder="" />
     </div>
 
 
 
     <label htmlFor="inputVoterId" className=" col-lg-1 col-form-label fw-bolder fs-6  text-custom  mt-2">{t('Patra-VoterId')} </label>
     <div className="col-lg-5">
-      <input type="text" disabled={userCreated}  className="form-control ps-0 border-custom1 rounded-0 shadow-none  mb-3   mb-3" value={user?.VOTER_ID}  name="VOTER_ID" onChange={(event)=>handleUserStateInput(event)} id="inputVoterId" aria-describedby="helpId" placeholder="" />
+      <input type="text"   className="form-control ps-0 border-custom1 rounded-0 shadow-none  mb-3   mb-3" value={user?.VOTER_ID}  name="VOTER_ID" onChange={(event)=>handleUserStateInput(event)} id="inputVoterId" aria-describedby="helpId" placeholder="" />
     </div>
 
  {/*Patra-State  */}
@@ -1058,7 +1119,7 @@ onChange={(event)=>handleUserStateInput(event)} required id="inputName" aria-des
     <div className="col-lg-5   mb-3 ">
 
     <select
-disabled={userCreated} 
+
     required
                             className={`form-select shadow-none rounded-0
                              ${ (submitBtnPress === true &&  (user?.STATE_CODE=== "" || user?.STATE_CODE === undefined)  ) ? "form-select-custom1  is-invalid " :"form-select-custom" }`}
@@ -1073,7 +1134,7 @@ disabled={userCreated}
 
                           >
                             {/* {t('Select-Category')} */}
-                            <option className="fw-bold"> {t('Select-Menu')}</option>
+                            <option className="fw-bold" value={""}> {t('Select-Menu')}</option>
                          {
                           stateList?.map((stateInfo,index)=>{
                               return(
@@ -1091,7 +1152,7 @@ disabled={userCreated}
  
          <label htmlFor="inputLokSabha" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom  ">{t('Patra-Parliamentary-Constituency')}<span className='text-danger'>*</span>  </label>
     <div className="col-lg-11   mb-3 ">
-      <select disabled={userCreated} 
+      <select 
                             className={`form-select ${ (submitBtnPress === true &&   (user?.PARLIAMENT_CODE=== "" || user?.PARLIAMENT_CODE === undefined) ) ? "form-select-custom1  is-invalid " :"form-select-custom" } shadow-none rounded-0`}
                             id="inputLokSabha"
                             name="PARLIAMENT_CODE"
@@ -1100,7 +1161,7 @@ disabled={userCreated}
                            required
                           >
                            
-                            <option className="fw-bold"> {t('Select-Menu')}</option>
+                            <option className="fw-bold" value={""}> {t('Select-Menu')}</option>
                          {
                           lokSabhaList?.map((lokSabhaInfo,index)=>{
                               return(
@@ -1123,7 +1184,7 @@ disabled={userCreated}
 <label htmlFor="inputVidhanSabha" className="col-lg-1 col-form-label fw-bolder fs-6  text-custom  ">{t('Patra-Assembly-Constituency')}<span className='text-danger'>*</span>  </label>
     <div className="col-lg-11   mb-3 ">
 
-    <select disabled={userCreated} 
+    <select 
                             className={`form-select ${ (submitBtnPress === true && (user?.ASSEMBLY_CODE=== "" || user?.ASSEMBLY_CODE === undefined) ) ? "form-select-custom1  is-invalid " :"form-select-custom" }  shadow-none rounded-0`}
                             id="inputLokSabha"
                             name="ASSEMBLY_CODE"
@@ -1132,7 +1193,7 @@ disabled={userCreated}
                             required
                           >
                             
-                            <option className="fw-bold"> {t('Select-Menu')}</option>
+                            <option className="fw-bold" value={""}> {t('Select-Menu')}</option>
                          {
                           assemblyList?.map((assemblyInfo,index)=>{
                               return(
@@ -1150,14 +1211,14 @@ disabled={userCreated}
     <div className="col-lg-10   mb-3 ">
 
 
-    <select          disabled={userCreated}        className={`form-select form-select-custom  shadow-none rounded-0`}
+    <select               className={`form-select form-select-custom  shadow-none rounded-0`}
                             id="inputEducation"
                             name="HIGHEST_EDUCATIONAL_QUALIFICATION"
                             value={user?.HIGHEST_EDUCATIONAL_QUALIFICATION}
                             onChange={(event)=>handleUserStateInput(event)} 
                           >
 
-         <option className="fw-bold "> {t('Select-Menu')}</option>
+         <option className="fw-bold " value={""}> {t('Select-Menu')}</option>
     <option value="Less_Than_10th">
                               Less Than 10th
                             </option>
@@ -1192,7 +1253,7 @@ disabled={userCreated}
         <div className='col-sm-4'>
         <div className="form-check">
            <input className="form-check-input " 
-           disabled={userCreated} 
+         
             type="checkbox" 
             id="flexCheckDefault"  
             name="Armed_Services"
@@ -1203,7 +1264,7 @@ disabled={userCreated}
        </div>
        <div className="form-check">
            <input className="form-check-input" 
-           disabled={userCreated} 
+         
            type="checkbox"  id="flexCheckDefault1" 
            name="Civil_Services"
            checked={user?.ASPIRATION?.Civil_Services}
@@ -1213,7 +1274,7 @@ disabled={userCreated}
        </div>
        <div className="form-check">
            <input className="form-check-input" type="checkbox" 
-           disabled={userCreated} 
+         
             name="Teaching"
             checked={user?.ASPIRATION?.Teaching}
             onChange={(event)=>handleUserAspirationStateInput(event)} 
@@ -1222,165 +1283,80 @@ disabled={userCreated}
        </div>
        <div className="form-check">
            <input className="form-check-input" type="checkbox"  id="flexCheckDefault3"
-           disabled={userCreated} 
+       
                   name="Police_officer"
                   checked={user?.ASPIRATION?.Police_officer}
                   onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
            <label className="form-check-label text-custom" htmlFor="flexCheckDefault3">{t('Police-officer')}   </label>
        </div>
+       </div>
+       <div className='col-sm-4'>
+   
        <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}   id="flexCheckDefault4" 
-             name="Railway"
-             checked={user?.ASPIRATION?.Railway}
+           <input className="form-check-input" type="checkbox"   id="flexCheckDefault4" 
+             name="Railway_Bank"
+             checked={user?.ASPIRATION?.Railway_Bank}
              onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault4">{t('Railway')}   </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault4">{t('Railway-Bank')}   </label>
        </div>
        <div className="form-check">
-           <input className="form-check-input" disabled={userCreated}  type="checkbox"  id="flexCheckDefault5"
-             name="Bank"
-             checked={user?.ASPIRATION?.Bank}
+           <input className="form-check-input"   type="checkbox"  id="flexCheckDefault5"
+             name="Lekhpal_Patwari_Tehsildar"
+             checked={user?.ASPIRATION?.Lekhpal_Patwari_Tehsildar}
              onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault5">{t('Bank')}   </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault5">{t('Lekhpal-Patwari-Tehsildar')}   </label>
        </div>
        <div className="form-check">
-           <input className="form-check-input" disabled={userCreated}  type="checkbox"  id="flexCheckDefault6"
-           name="Lekhpal"
-           checked={user?.ASPIRATION?.Lekhpal}
+           <input className="form-check-input"   type="checkbox"  id="flexCheckDefault6"
+           name="Nurse_Asha_Anganwadi"
+           checked={user?.ASPIRATION?.Nurse_Asha_Anganwadi}
            onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault6">{t('Lekhpal')}  </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault6">{t('Nurse-Asha-Anganwadi')}  </label>
        </div>
-
        <div className="form-check">
-           <input className="form-check-input" disabled={userCreated}  type="checkbox" id="flexCheckDefault7" 
-              name="Patwari"
-              checked={user?.ASPIRATION?.Patwari}
+           <input className="form-check-input"   type="checkbox" id="flexCheckDefault7" 
+              name="Doctor_Engineer_Lawyer"
+              checked={user?.ASPIRATION?.Doctor_Engineer_Lawyer}
               onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault7">{t('Patwari')}    </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault7">{t('Doctor-Engineer-Lawyer')}    </label>
        </div>
-       
+   
     
         </div>
         <div className='col-sm-4'>
+      
+       
         <div className="form-check">
-           <input className="form-check-input" disabled={userCreated}  type="checkbox"  id="flexCheckDefault8" 
-              name="Tehsildar"
-              checked={user?.ASPIRATION?.Tehsildar}
+           <input className="form-check-input"   type="checkbox"  id="flexCheckDefault8" 
+              name="Accountant_Marketing_Data_Entry"
+              checked={user?.ASPIRATION?.Accountant_Marketing_Data_Entry}
               onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault8">{t('Tehsildar')}     </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault8">{t('Accountant-Marketing-Data-Entry')}     </label>
        </div>
        <div className="form-check">
-           <input className="form-check-input" disabled={userCreated}  type="checkbox"  id="flexCheckDefault9"
-           
-           name="Nurse"
-           checked={user?.ASPIRATION?.Nurse}
+           <input className="form-check-input"   type="checkbox"  id="flexCheckDefault9"
+           name="Start_up_business"
+           checked={user?.ASPIRATION?.Start_up_business}
            onChange={(event)=>handleUserAspirationStateInput(event)} 
 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault9">{t('Nurse')}     </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault9">{t('Start-up-business')}     </label>
        </div>
        <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}   id="flexCheckDefault10" 
-              name="Asha"
-              checked={user?.ASPIRATION?.Asha}
+           <input className="form-check-input" type="checkbox"    id="flexCheckDefault10" 
+              name="Others"
+              checked={user?.ASPIRATION?.Others}
               onChange={(event)=>handleUserAspirationStateInput(event)} 
            />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault10">{t('Asha')}   </label>
+           <label className="form-check-label text-custom" htmlFor="flexCheckDefault10">{t('Others')}   </label>
        </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox"
-           disabled={userCreated} 
-           name="Anganwadi"
-           checked={user?.ASPIRATION?.Anganwadi}
-           onChange={(event)=>handleUserAspirationStateInput(event)} 
-           
-           id="flexCheckDefault11" />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault11">{t('Anganwadi')}   </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault12" 
-                name="Doctor"
-                checked={user?.ASPIRATION?.Doctor}
-                onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault12">{t('Doctor')}  </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault13" 
-              name="Engineer"
-              checked={user?.ASPIRATION?.Engineer}
-              onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault13">{t('Engineer')}  </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault14" 
-                         name="Lawyer"
-                         checked={user?.ASPIRATION?.Lawyer}
-                         onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault14">{t('Lawyer')}   </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault15" 
-               name="Accountant"
-               checked={user?.ASPIRATION?.Accountant}
-               onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault15">{t('Accountant')}   </label>
-       </div>
-        </div>
-        <div className='col-sm-4'>
-        <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault16"
-               name="Marketing"
-               checked={user?.ASPIRATION?.Marketing}
-               onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault16">{t('Marketing')}   </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault17" 
-             name="Data_Entry"
-             checked={user?.ASPIRATION?.Data_Entry}
-             onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom"  htmlFor="flexCheckDefault17">{t('Data-Entry')}   </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault18" 
-             name="Start_up"
-             checked={user?.ASPIRATION?.Start_up}
-             onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault18">{t('Start-up')}    </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" disabled={userCreated}  value="" id="flexCheckDefault19"
-           name="Business"
-           checked={user?.ASPIRATION?.Business}
-           onChange={(event)=>handleUserAspirationStateInput(event)} 
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault19"> {t('business')} </label>
-       </div>
-       <div className="form-check">
-           <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault20" 
-           disabled={userCreated} 
-           name="Others"
-           checked={user?.ASPIRATION?.Others}
-           onChange={(event)=>handleUserAspirationStateInput(event)} 
-
-           />
-           <label className="form-check-label text-custom" htmlFor="flexCheckDefault20">{t('Others')}  </label>
-       </div>
-  
-
-        </div>
+  </div>
       </div>
       <div className='row mt-3'>
        <div className='col-sm-12'>
@@ -1390,7 +1366,7 @@ disabled={userCreated}
            <input className="form-check-input"
             type="checkbox"
               name="VOLUNTEER"
-              disabled={userCreated} 
+        
             checked={user?.VOLUNTEER}
             onChange={(event)=>handleUserVolunteerStateInput(event)}   id="flexCheckDefault23" />
            <label className="form-check-label text-custom" htmlFor="flexCheckDefault23">  {t('Patra-volunteer-concent')} </label>
@@ -1436,12 +1412,12 @@ optSendMobile=== false ?
                                                         time ===0  ? <> 
                                                                                            
 
-                                                     <button className="btn btn-custom btn-sm " type='button'  disabled={userCreated} style={{cursor: "pointer"}} onClick={()=>{
+                                                     <button className="btn btn-custom btn-sm " type='button' style={{cursor: "pointer"}} onClick={()=>{
                                                     handleResendOtp()
                                                     }}> {t('ResendRozgaarNyayCode')} </button>        
 
                                                         </> : <>
-                                                        <span className="text-custom " style={{cursor: "pointer"}} onClick={()=>{
+                                                        <span className="text-custom " style={{cursor: "pointer",fontSize:"12px"}} onClick={()=>{
                                                    toast.error(` ${t('waitRozgarCode')}`)
                                                   }}>{t('RozgaarNyayCodeAgain')} {`${time?.toString().length===2 ? "00 : "+time : "00 : 0"+time}`} </span>   
                                                         </>
@@ -1456,7 +1432,7 @@ optSendMobile=== false ?
 
 </div>
 </div>
-<small id="helpId" className="form-text text-muted">{t('OTPMessage')} </small>
+<small id="helpId" className="form-text text-muted" >{t('OTPMessage')} </small>
 
 
 
@@ -1484,7 +1460,7 @@ optSendMobile=== false ?
       </div>
       <div className='row   d-flex justify-content-center align-items-center'>
       <div className='col-12 text-center mt-4'>
-        <button className='btn btn-custom   ' disabled={userCreated} type='submit' onClick={()=>setSubmitBtnPress(true)}>{t('Submit')} </button>
+        <button className='btn btn-custom'  type='submit' onClick={()=>setSubmitBtnPress(true)}>{t('Submit')} </button>
  
 
        </div>
@@ -1561,6 +1537,9 @@ optSendMobile=== false ?
                  </div>
 
             </form>
+            
+
+
 
         </div>
    
