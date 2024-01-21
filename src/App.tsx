@@ -17,6 +17,7 @@ import Gallery from "./Module/Layout/Page/Gallery";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { Toaster } from "react-hot-toast";
 import ProfileCard from "./Module/User/Page/ProfileCard";
+import PdfEditor from "./Module/Layout/Page/PdfEditor";
 
 function App() {
 
@@ -76,6 +77,7 @@ i18n.changeLanguage((language)) // Here Change language
           <Route path="/livestream" element={<Livestream/>}/>
           <Route path="/Gallery" element={<Gallery/>}/>
           <Route path="/ProfileCard" element={<ProfileCard/>}/>
+          <Route path="/PdfEditor" element={<PdfEditor/>} />
          </Routes>
        </I18nextProvider>
          

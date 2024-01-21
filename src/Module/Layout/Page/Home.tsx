@@ -71,7 +71,7 @@ const Home = () => {
                               </div>
                               <div className='col-3 col-sm-4 d-flex justify-content-center align-items-center'>
                           <a href="https://bharatjodonyayyatra.com/en/nyayyoddha" target='_blank'>
-                          <button  className='btn btn-custom2'>{t('Join-Now')} </button>
+                          <button  className='btn btn-custom'>{t('Join-Now')} </button>
 
                           </a>
                               </div>
@@ -92,7 +92,7 @@ const Home = () => {
                               </div>
                               <div className='col-3 col-sm-4  d-flex justify-content-center align-items-center'>
                               <a target='_blank' href="https://iyc.in/intern/">
-                              <button className='btn btn-custom2'>{t('Join-Now')}  </button>
+                              <button className='btn btn-custom'>{t('Join-Now')}  </button>
 
                               </a>
                               </div>

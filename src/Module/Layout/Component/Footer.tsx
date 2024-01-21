@@ -37,7 +37,7 @@ const Footer = () => {
           <hr className="w-100 clearfix d-md-none" />
 
           {/* <!-- Grid column --> */}
-          <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+          <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 mb-4">
             <h6 className="text-uppercase mb-2 fw-bold font-weight-bold">   {t('footer-Head2')} </h6>
             <p className='mb-1'>
               <a className="text-dark text-decoration-none">{t('CSD')}</a>
@@ -59,8 +59,6 @@ const Footer = () => {
 
           <hr className="w-100 clearfix d-md-none" />
 
-          {/* <!-- Grid column --> */}
-          <hr className="w-100 clearfix d-md-none" />
 
           {/* <!-- Grid column --> */}
           <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
